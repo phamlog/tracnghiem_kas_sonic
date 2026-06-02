@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trắc Nghiệm Kaspersky Next XDR Optimum</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+
+        .question-block {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s;
+        }
+
+        .question-block.correct {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+
+        .question-block.incorrect {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+        }
+
+        .question-block.answered {
+            opacity: 0.95;
+        }
+
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        .options {
+            list-style: none;
+            margin-bottom: 15px;
+        }
+
+        .option {
+            margin: 10px 0;
+            padding: 12px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .option:hover:not(.disabled) {
+            background: #e9ecef;
+            border-color: #667eea;
+        }
+
+        .option.disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .option label {
+            cursor: pointer;
+            display: inline;
+        }
+
+        .option.selected {
+            background: #e7f3ff;
+            border-color: #667eea;
+        }
+
+        .option.correct-option {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        .option.wrong-option {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+
+        .explanation {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            border-radius: 5px;
+            font-size: 0.95em;
+        }
+
+        .explanation.show {
+            display: block;
+        }
+
+        .correct-answer {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .wrong-answer {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .check-btn {
+            padding: 10px 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .check-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .check-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .stats {
+            position: sticky;
+            top: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .stats h3 {
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: white;
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .reset-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .reset-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🛡️ Trắc Nghiệm Kaspersky Next XDR Optimum</h1>
+
+        <div class="stats">
+            <h3>📊 Thống Kê</h3>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number" id="answeredCount">0</span>
+                    <span class="stat-label">Đã trả lời</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="correctCount">0</span>
+                    <span class="stat-label">Đúng</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="wrongCount">0</span>
+                    <span class="stat-label">Sai</span>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <p style="margin-top: 10px; font-size: 0.9em;">Tiến độ: <span id="progressText">0/50</span></p>
+        </div>
+
+        <div id="questionsContainer"></div>
+
+        <button class="reset-btn" onclick="resetQuiz()">🔄 Làm Lại Từ Đầu</button>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "1. Kaspersky Next product line gồm bao nhiêu tiers?",
+                options: ["2 tiers", "3 tiers", "4 tiers", "5 tiers"],
+                correct: 2,
+                explanation: "Kaspersky Next bao gồm 4 tiers: EDR Foundations, EDR Optimum, XDR Optimum và XDR Expert."
+            },
+            {
+                question: "2. Console nào được gọi là Pro View?",
+                options: ["Kaspersky Security Center", "Kaspersky Endpoint Security Cloud", "Kaspersky EDR Console", "Kaspersky XDR Portal"],
+                correct: 1,
+                explanation: "Pro View là cloud console dựa trên Kaspersky Endpoint Security Cloud."
+            },
+            {
+                question: "3. Expert View console được truy cập qua địa chỉ nào?",
+                options: ["https://cloud.kaspersky.com/", "https://ksc.kaspersky.com", "https://edr.kaspersky.com", "https://xdr.kaspersky.com"],
+                correct: 1,
+                explanation: "Expert View được truy cập qua https://ksc.kaspersky.com và dựa trên Kaspersky Security Center Web Console."
+            },
+            {
+                question: "4. Component nào bảo vệ chống lại phishing websites?",
+                options: ["File Threat Protection", "Web Threat Protection", "Mail Threat Protection", "Network Threat Protection"],
+                correct: 1,
+                explanation: "Web Threat Protection phân tích địa chỉ web và chặn truy cập vào các trang phishing và trang web nguy hiểm."
+            },
+            {
+                question: "5. AMSI là viết tắt của gì?",
+                options: ["Antimalware Security Interface", "Antimalware Scan Interface", "Advanced Malware Security Interface", "Automated Malware Scan Interface"],
+                correct: 1,
+                explanation: "AMSI là Antimalware Scan Interface, một API từ Microsoft giúp quét macros và scripts khi chúng đang chạy."
+            },
+            {
+                question: "6. Component nào giúp giảm attack surface bằng cách hạn chế khởi chạy phần mềm?",
+                options: ["Device Control", "Application Control", "Web Control", "Firewall"],
+                correct: 1,
+                explanation: "Application Control giúp thực thi chính sách bảo mật của công ty bằng cách hạn chế việc khởi chạy phần mềm trên endpoints."
+            },
+            {
+                question: "7. Device Control có thể chặn loại thiết bị nào sau đây?",
+                options: ["USB flash drives", "Keyboards", "Mice", "Monitors"],
+                correct: 0,
+                explanation: "Device Control có thể chặn USB flash drives, nhưng không thể chặn bàn phím và chuột vì chúng không thuộc quy tắc Device Control."
+            },
+            {
+                question: "8. Ransomware là gì?",
+                options: ["Phần mềm bảo vệ dữ liệu", "Trojan mã hóa dữ liệu và đòi tiền chuộc", "Công cụ quản lý mật khẩu", "Hệ thống phát hiện xâm nhập"],
+                correct: 1,
+                explanation: "Ransomware là loại Trojan sửa đổi dữ liệu người dùng khiến họ không thể sử dụng dữ liệu hoặc kiểm soát máy tính, sau đó yêu cầu tiền chuộc."
+            },
+            {
+                question: "9. Component nào có thể khôi phục file bị mã hóa bởi ransomware?",
+                options: ["File Threat Protection", "Remediation Engine", "Behavior Detection", "Exploit Prevention"],
+                correct: 1,
+                explanation: "Remediation Engine rollback các hành động của malware, bao gồm khôi phục các file bị mã hóa bởi ransomware."
+            },
+            {
+                question: "10. Host Intrusion Prevention kiểm soát hoạt động dựa trên gì?",
+                options: ["File size", "Application reputation", "Network speed", "Memory usage"],
+                correct: 1,
+                explanation: "Host Intrusion Prevention kiểm soát hoạt động của các chương trình đang chạy dựa trên reputation của chúng."
+            },
+            {
+                question: "11. Có bao nhiêu trust groups trong Host Intrusion Prevention?",
+                options: ["2", "3", "4", "5"],
+                correct: 2,
+                explanation: "Host Intrusion Prevention có 4 trust groups: Trusted, Low Restricted, High Restricted và Untrusted."
+            },
+            {
+                question: "12. CITO là viết tắt của gì?",
+                options: ["Cybersecurity IT Operations", "Cybersecurity for IT Online", "Cyber Intelligence Tools Online", "Critical IT Operations"],
+                correct: 1,
+                explanation: "CITO là Cybersecurity for IT Online, một khóa đào tạo cung cấp thông tin cơ bản về các khái niệm cybersecurity."
+            },
+            {
+                question: "13. Kaspersky Next EDR Optimum bao gồm training nào?",
+                options: ["KASAP", "CITO", "Both KASAP and CITO", "None"],
+                correct: 1,
+                explanation: "Kaspersky Next EDR Optimum bao gồm CITO (Cybersecurity for IT Online) training trong license."
+            },
+            {
+                question: "14. Behavior Detection so sánh hoạt động của chương trình với gì?",
+                options: ["Virus signatures", "Dangerous activity patterns", "System logs", "Network traffic"],
+                correct: 1,
+                explanation: "Behavior Detection giám sát hành động của chương trình và so sánh chúng với các mẫu hoạt động nguy hiểm (dangerous activity patterns)."
+            },
+            {
+                question: "15. Exploit Prevention bảo vệ chống lại loại tấn công nào?",
+                options: ["Phishing attacks", "Buffer overflow attacks", "DDoS attacks", "Social engineering"],
+                correct: 1,
+                explanation: "Exploit Prevention bảo vệ chống lại các cuộc tấn công exploit như buffer overflow attacks nhằm chiếm quyền quản trị hệ thống."
+            },
+            {
+                question: "16. IoC là viết tắt của gì?",
+                options: ["Internet of Control", "Indicator of Compromise", "Index of Content", "Information Operations Center"],
+                correct: 1,
+                explanation: "IoC là Indicator of Compromise, chỉ báo rằng hệ thống đã bị xâm phạm."
+            },
+            {
+                question: "17. Kaspersky Next XDR Optimum yêu cầu phiên bản Kaspersky Security Center nào?",
+                options: ["14.0", "15.0", "15.4", "16.0"],
+                correct: 2,
+                explanation: "Kaspersky Next XDR Optimum yêu cầu Kaspersky Security Center 15.4 Linux Administration Server."
+            },
+            {
+                question: "18. Chức năng Alert aggregation có trong tier nào?",
+                options: ["EDR Foundations", "EDR Optimum", "XDR Optimum", "All tiers"],
+                correct: 2,
+                explanation: "Alert aggregation là tính năng độc quyền của Kaspersky Next XDR Optimum, không có trong EDR Optimum hay EDR Foundations."
+            },
+            {
+                question: "19. Cloud Sandbox integration có sẵn trong tier nào?",
+                options: ["EDR Foundations", "EDR Optimum", "XDR Optimum", "XDR Expert"],
+                correct: 2,
+                explanation: "Cloud Sandbox (TI Sandbox) integration là tính năng của XDR Optimum và XDR Expert."
+            },
+            {
+                question: "20. Active Directory response actions bao gồm hành động nào sau đây?",
+                options: ["Lock user account", "Delete user account", "Create new account", "Backup account data"],
+                correct: 0,
+                explanation: "Active Directory response actions bao gồm: Lock user account, Reset password, Add/Delete user from security group."
+            },
+            {
+                question: "21. KASAP là viết tắt của gì?",
+                options: ["Kaspersky Advanced Security Analysis Platform", "Kaspersky Automated Security Awareness Platform", "Kaspersky Anti-Spam Protection", "Kaspersky Application Security Platform"],
+                correct: 1,
+                explanation: "KASAP là Kaspersky Automated Security Awareness Platform, nền tảng đào tạo nhận thức bảo mật trực tuyến."
+            },
+            {
+                question: "22. File Threat Protection sử dụng công nghệ quét nào?",
+                options: ["Only signature analysis", "Only heuristic analysis", "Signature, heuristic, and KSN", "Only KSN"],
+                correct: 2,
+                explanation: "File Threat Protection sử dụng cả ba công nghệ: signature analysis, heuristic analysis (emulation) và KSN checks."
+            },
+            {
+                question: "23. Web Control có thể quét loại traffic nào?",
+                options: ["Only HTTP", "Only HTTPS", "HTTP and HTTPS", "All protocols"],
+                correct: 2,
+                explanation: "Web Control quét cả HTTP và HTTPS traffic."
+            },
+            {
+                question: "24. Mail Threat Protection hoạt động ở tầng nào?",
+                options: ["Application layer", "Protocol level", "Network layer", "Physical layer"],
+                correct: 1,
+                explanation: "Mail Threat Protection chặn messages ở protocol level (POP3, SMTP, IMAP, NNTP) và bằng cách nhúng vào Microsoft Office Outlook (MAPI)."
+            },
+            {
+                question: "25. Encryption management hỗ trợ công cụ nào cho Windows?",
+                options: ["FileVault", "BitLocker", "VeraCrypt", "LUKS"],
+                correct: 1,
+                explanation: "Kaspersky Next EDR/XDR Optimum tích hợp với BitLocker cho Windows và FileVault cho macOS."
+            },
+            {
+                question: "26. Data wipe task có thể được cấu hình để chạy khi nào?",
+                options: ["Only manually", "When device doesn't connect for X days", "Every day", "On user login"],
+                correct: 1,
+                explanation: "Data wipe task có thể chạy manually hoặc tự động nếu thiết bị không kết nối với Kaspersky Security Center trong hơn X ngày."
+            },
+            {
+                question: "27. Pro View phù hợp với loại công ty nào?",
+                options: ["Large enterprises", "Small and medium-sized companies", "Only MSPs", "Government agencies"],
+                correct: 1,
+                explanation: "Pro View (Kaspersky Endpoint Security Cloud Console) được thiết kế cho các công ty nhỏ và vừa với một hoặc nhiều administrators."
+            },
+            {
+                question: "28. Expert View có thể deploy ở đâu?",
+                options: ["Only cloud", "Only on-premises", "Both cloud and on-premises", "Only hybrid"],
+                correct: 2,
+                explanation: "Expert View có thể được deploy cả cloud (https://ksc.kaspersky.com) và on-premises."
+            },
+            {
+                question: "29. Mỗi user trong Kaspersky Endpoint Security Cloud có thể cài đặt bảo vệ trên bao nhiêu thiết bị?",
+                options: ["1 computer, 1 mobile", "1 computer, 2 mobiles", "2 computers, 2 mobiles", "Unlimited"],
+                correct: 1,
+                explanation: "Mỗi user có thể cài đặt Kaspersky protection applications trên: 1 client computer hoặc server và 2 mobile devices."
+            },
+            {
+                question: "30. Distribution point trong KSC Cloud Console có chức năng gì?",
+                options: ["Store user data", "Poll the network", "Manage licenses", "Create reports"],
+                correct: 1,
+                explanation: "Distribution points có thể poll network, phân phối installation packages, thực hiện remote installation, và làm update source."
+            },
+            {
+                question: "31. Workspace trong cloud console là gì?",
+                options: ["A physical office", "An instance for a specific company", "A virtual machine", "A user account"],
+                correct: 1,
+                explanation: "Workspace là một instance được tạo cho một công ty cụ thể trong Kaspersky Endpoint Security Cloud Console hoặc KSC Cloud Console."
+            },
+            {
+                question: "32. Security profile trong Pro View là gì?",
+                options: ["User account settings", "Collection of settings for Kaspersky protection apps", "Network configuration", "License information"],
+                correct: 1,
+                explanation: "Security profile là một tập hợp các cài đặt cho Kaspersky protection applications, có thể gán cho các users khác nhau."
+            },
+            {
+                question: "33. Remediation Engine có thể rollback thay đổi ở đâu?",
+                options: ["Only file system", "Only registry", "File system, registry, processes, network", "Only processes"],
+                correct: 2,
+                explanation: "Remediation Engine rollback thay đổi trên: File system, Registry, Processes và Network interactions."
+            },
+            {
+                question: "34. BadUSB Attack Prevention bảo vệ chống lại gì?",
+                options: ["Infected USB drives", "USB devices pretending to be keyboards", "Broken USB ports", "USB power surges"],
+                correct: 1,
+                explanation: "BadUSB Attack Prevention bảo vệ chống lại các cuộc tấn công khi infected USB flash drive giả làm keyboard."
+            },
+            {
+                question: "35. Kaspersky Next XDR Optimum license cho phép bao nhiêu queries đến TI Portal mỗi năm?",
+                options: ["Number of licenses x 0.2", "Number of licenses x 0.5", "Number of licenses x 1", "Unlimited"],
+                correct: 1,
+                explanation: "Số lượng TI Portal queries = <Number of licensing units> x 0.5 per year."
+            },
+            {
+                question: "36. KASAP training slots được tính như thế nào?",
+                options: ["Number of licenses x 0.1", "Number of licenses x 0.2", "Number of licenses x 0.5", "Number of licenses x 1"],
+                correct: 1,
+                explanation: "Số training slots = <Number of licensing units> x 0.2, ví dụ: 100 licenses = 20 training slots."
+            },
+            {
+                question: "37. Alert aggregation gom nhóm alerts dựa trên tiêu chí nào?",
+                options: ["Only device name", "Only file hash", "Device, user account, file hash", "Only timestamp"],
+                correct: 2,
+                explanation: "Alert aggregation nhóm alerts dựa trên: device, user account used to launch malicious object, và file hash."
+            },
+            {
+                question: "38. LDAPS sử dụng port nào?",
+                options: ["389", "636", "443", "3389"],
+                correct: 1,
+                explanation: "LDAPS (LDAP over TLS) sử dụng TCP port 636 để kết nối bảo mật với domain controller."
+            },
+            {
+                question: "39. EDR capabilities trong Foundations tier bao gồm gì?",
+                options: ["Full EDR features", "Only root cause analysis", "IoC scanning only", "No EDR features"],
+                correct: 1,
+                explanation: "Kaspersky Next EDR Foundations chỉ bao gồm root cause analysis, không có IoC scanning hay automated response."
+            },
+            {
+                question: "40. Vulnerability assessment có trong tier nào?",
+                options: ["Only XDR Expert", "Only EDR Optimum", "All tiers", "EDR Optimum and higher"],
+                correct: 2,
+                explanation: "Vulnerability assessment có trong tất cả các tiers, nhưng EDR Foundations chỉ có vulnerability assessment, không có patch management."
+            },
+            {
+                question: "41. Mobile protection trong EDR Foundations bao gồm?",
+                options: ["No mobile protection", "Basic MDM", "Advanced MDM", "Full KSMM"],
+                correct: 1,
+                explanation: "EDR Foundations bao gồm Basic MDM functionality, trong khi EDR Optimum có Advanced MDM (KSMM)."
+            },
+            {
+                question: "42. Cloud Discovery có trong tier nào?",
+                options: ["Only XDR Expert", "EDR Optimum and higher", "All tiers", "Only EDR Foundations"],
+                correct: 2,
+                explanation: "Cloud Discovery có trong tất cả các tiers của Kaspersky Next."
+            },
+            {
+                question: "43. Security for Microsoft 365 chỉ khả dụng qua console nào?",
+                options: ["Expert View", "Pro View", "Both consoles", "Command line only"],
+                correct: 1,
+                explanation: "Security for Microsoft 365 chỉ available through Pro View console."
+            },
+            {
+                question: "44. SIEM event export via Syslog available ở đâu?",
+                options: ["Pro View", "Expert View", "Both consoles", "Not available"],
+                correct: 1,
+                explanation: "SIEM event export via Syslog chỉ available trong Expert View (cloud và on-prem)."
+            },
+            {
+                question: "45. Kaspersky Next XDR Expert bao gồm component nào sau đây?",
+                options: ["Only EDR Expert", "Only XDR Core", "EDR Expert and XDR Core", "Only KATA"],
+                correct: 2,
+                explanation: "Kaspersky Next XDR Expert bao gồm features của các tier trước, Kaspersky EDR Expert và Kaspersky XDR Core mới."
+            },
+            {
+                question: "46. MITRE ATT&CK mapping có trong tier nào?",
+                options: ["All tiers", "EDR Optimum and higher", "XDR Optimum and higher", "Only XDR Expert"],
+                correct: 3,
+                explanation: "MITRE ATT&CK mapping là advanced EDR capability chỉ có trong XDR Expert."
+            },
+            {
+                question: "47. Threat hunting capability có trong tier nào?",
+                options: ["All tiers", "EDR Optimum and higher", "XDR Optimum and higher", "Only XDR Expert"],
+                correct: 3,
+                explanation: "Threat hunting là advanced EDR capability chỉ available trong Kaspersky Next XDR Expert."
+            },
+            {
+                question: "48. Playbooks và Investigation graph có trong tier nào?",
+                options: ["XDR Optimum", "XDR Expert", "EDR Optimum", "All XDR tiers"],
+                correct: 1,
+                explanation: "Playbooks và Investigation graph là advanced XDR capabilities chỉ có trong XDR Expert."
+            },
+            {
+                question: "49. Migration từ KES Cloud Plus sang Next EDR Foundations ảnh hưởng gì?",
+                options: ["No changes", "Security for Microsoft 365 becomes inactive", "All features remain", "Need to reinstall all apps"],
+                correct: 1,
+                explanation: "Khi migrate từ KES Cloud Plus sang Next EDR Foundations, Kaspersky Security for Microsoft Office 365 component sẽ trở nên inactive."
+            },
+            {
+                question: "50. Hosted Discovery Service (HDS) sử dụng port nào?",
+                options: ["80", "443", "8080", "3389"],
+                correct: 1,
+                explanation: "Hosted Discovery Service (HDS) sử dụng TCP port 443 để Network Agent có thể tìm workspace của nó."
+            }
+        ];
+
+        let stats = {
+            answered: 0,
+            correct: 0,
+            wrong: 0
+        };
+
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+
+            questions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question-block';
+                questionDiv.id = `question-${index}`;
+
+                let optionsHtml = '<ul class="options">';
+                q.options.forEach((option, optIndex) => {
+                    optionsHtml += `
+                        <li class="option" onclick="selectOption(${index}, ${optIndex})" id="q${index}_opt${optIndex}">
+                            <input type="radio" name="question${index}" value="${optIndex}">
+                            <label>${option}</label>
+                        </li>
+                    `;
+                });
+                optionsHtml += '</ul>';
+
+                questionDiv.innerHTML = `
+                    <div class="question-text">${q.question}</div>
+                    ${optionsHtml}
+                    <button class="check-btn" onclick="checkAnswer(${index})" id="checkBtn-${index}">✓ Xác Nhận</button>
+                    <div class="explanation" id="explanation-${index}"></div>
+                `;
+
+                container.appendChild(questionDiv);
+            });
+        }
+
+        function selectOption(questionIndex, optionIndex) {
+            const questionBlock = document.getElementById(`question-${questionIndex}`);
+            if (questionBlock.classList.contains('answered')) return;
+
+            const options = questionBlock.querySelectorAll('.option');
+            options.forEach(opt => opt.classList.remove('selected'));
+
+            const selectedOption = document.getElementById(`q${questionIndex}_opt${optionIndex}`);
+            selectedOption.classList.add('selected');
+            selectedOption.querySelector('input').checked = true;
+        }
+
+        function checkAnswer(questionIndex) {
+            const questionBlock = document.getElementById(`question-${questionIndex}`);
+            if (questionBlock.classList.contains('answered')) return;
+
+            const radio = document.querySelector(`input[name="question${questionIndex}"]:checked`);
+            if (!radio) {
+                alert('⚠️ Vui lòng chọn một đáp án!');
+                return;
+            }
+
+            const userAnswer = parseInt(radio.value);
+            const correctAnswer = questions[questionIndex].correct;
+            const isCorrect = userAnswer === correctAnswer;
+
+            const options = questionBlock.querySelectorAll('.option');
+            options.forEach((opt, idx) => {
+                opt.classList.add('disabled');
+                opt.style.pointerEvents = 'none';
+
+                if (idx === correctAnswer) {
+                    opt.classList.add('correct-option');
+                }
+                if (idx === userAnswer && !isCorrect) {
+                    opt.classList.add('wrong-option');
+                }
+            });
+
+            const explanation = document.getElementById(`explanation-${questionIndex}`);
+            if (isCorrect) {
+                questionBlock.classList.add('correct');
+                explanation.innerHTML = `<span class="correct-answer">✓ Đúng!</span> ${questions[questionIndex].explanation}`;
+                stats.correct++;
+            } else {
+                questionBlock.classList.add('incorrect');
+                explanation.innerHTML = `<span class="wrong-answer">✗ Sai!</span> Đáp án đúng: <strong>${questions[questionIndex].options[correctAnswer]}</strong><br>${questions[questionIndex].explanation}`;
+                stats.wrong++;
+            }
+
+            explanation.classList.add('show');
+            questionBlock.classList.add('answered');
+
+            document.getElementById(`checkBtn-${questionIndex}`).disabled = true;
+
+            stats.answered++;
+            updateStats();
+        }
+
+        function updateStats() {
+            document.getElementById('answeredCount').textContent = stats.answered;
+            document.getElementById('correctCount').textContent = stats.correct;
+            document.getElementById('wrongCount').textContent = stats.wrong;
+            document.getElementById('progressText').textContent = `${stats.answered}/50`;
+
+            const percentage = (stats.answered / questions.length) * 100;
+            document.getElementById('progressFill').style.width = percentage + '%';
+        }
+
+        function resetQuiz() {
+            if (stats.answered > 0 && !confirm('Bạn có chắc muốn làm lại từ đầu?')) {
+                return;
+            }
+
+            stats = { answered: 0, correct: 0, wrong: 0 };
+            updateStats();
+            renderQuestions();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.onload = function() {
+            renderQuestions();
+        };
+    </script>
+</body>
+</html>
