@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trắc Nghiệm Kaspersky Next XDR Optimum</title>
+    <title>Trắc Nghiệm Kaspersky Next XDR - 100 Câu</title>
     <style>
         * {
             margin: 0;
@@ -19,7 +19,7 @@
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
             background: white;
             border-radius: 20px;
@@ -30,10 +30,17 @@
         h1 {
             color: #333;
             text-align: center;
-            margin-bottom: 30px;
-            font-size: 2em;
+            margin-bottom: 10px;
+            font-size: 2.2em;
             border-bottom: 3px solid #667eea;
             padding-bottom: 15px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
         }
 
         .question-block {
@@ -124,6 +131,7 @@
             border-left: 4px solid #ffc107;
             border-radius: 5px;
             font-size: 0.95em;
+            line-height: 1.6;
         }
 
         .explanation.show {
@@ -173,6 +181,7 @@
             border-radius: 10px;
             margin-bottom: 30px;
             text-align: center;
+            z-index: 100;
         }
 
         .stats h3 {
@@ -182,7 +191,7 @@
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 15px;
             margin-top: 15px;
         }
@@ -240,11 +249,23 @@
             color: white;
             transform: scale(1.02);
         }
+
+        .category-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin: 30px 0 20px 0;
+            font-size: 1.3em;
+            font-weight: bold;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🛡️ Trắc Nghiệm Kaspersky Next XDR Optimum</h1>
+        <div class="subtitle">📚 100 Câu Hỏi Chi Tiết - Kiểm Tra Kiến Thức Toàn Diện</div>
 
         <div class="stats">
             <h3>📊 Thống Kê</h3>
@@ -261,11 +282,15 @@
                     <span class="stat-number" id="wrongCount">0</span>
                     <span class="stat-label">Sai</span>
                 </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="scorePercent">0%</span>
+                    <span class="stat-label">Điểm</span>
+                </div>
             </div>
             <div class="progress-bar">
                 <div class="progress-fill" id="progressFill"></div>
             </div>
-            <p style="margin-top: 10px; font-size: 0.9em;">Tiến độ: <span id="progressText">0/50</span></p>
+            <p style="margin-top: 10px; font-size: 0.9em;">Tiến độ: <span id="progressText">0/100</span></p>
         </div>
 
         <div id="questionsContainer"></div>
@@ -275,305 +300,664 @@
 
     <script>
         const questions = [
+            // CATEGORY: Kaspersky Next Product Line Overview
             {
-                question: "1. Kaspersky Next product line gồm bao nhiêu tiers?",
+                category: "📦 Tổng Quan Sản Phẩm",
+                question: "1. Kaspersky Next product line được ra mắt với mục đích chính là gì?",
+                options: ["Tạo sản phẩm mới hoàn toàn", "Thay đổi licensing model để dễ lựa chọn", "Tăng giá sản phẩm", "Giảm số lượng tính năng"],
+                correct: 1,
+                explanation: "Mục đích chính của Kaspersky Next là thay đổi licensing model, giúp khách hàng dễ dàng lựa chọn sản phẩm phù hợp thay vì phải hiểu rõ hàng chục ứng dụng khác nhau."
+            },
+            {
+                question: "2. Kaspersky Next bao gồm bao nhiêu tiers?",
                 options: ["2 tiers", "3 tiers", "4 tiers", "5 tiers"],
                 correct: 2,
-                explanation: "Kaspersky Next bao gồm 4 tiers: EDR Foundations, EDR Optimum, XDR Optimum và XDR Expert."
+                explanation: "Kaspersky Next bao gồm 4 tiers: EDR Foundations, EDR Optimum, XDR Optimum và XDR Expert, mỗi tier phù hợp với mức độ maturity khác nhau của doanh nghiệp."
             },
             {
-                question: "2. Console nào được gọi là Pro View?",
-                options: ["Kaspersky Security Center", "Kaspersky Endpoint Security Cloud", "Kaspersky EDR Console", "Kaspersky XDR Portal"],
+                question: "3. Kaspersky Next EDR Foundations được thiết kế cho loại công ty nào?",
+                options: ["High-maturity companies", "Medium-maturity companies", "Low-maturity companies", "Chỉ dành cho MSPs"],
+                correct: 2,
+                explanation: "EDR Foundations được thiết kế cho low-maturity companies - các công ty có ngân sách nhỏ, thường chỉ có 1 IT administrator duy nhất."
+            },
+            {
+                question: "4. Kaspersky Next có giới thiệu ứng dụng mới nào không?",
+                options: ["Có, nhiều ứng dụng mới", "Không, chỉ thay đổi licensing model", "Có 1 ứng dụng mới", "Có 2 ứng dụng mới"],
                 correct: 1,
-                explanation: "Pro View là cloud console dựa trên Kaspersky Endpoint Security Cloud."
+                explanation: "Kaspersky Next không giới thiệu ứng dụng mới nào. Nó chỉ thay đổi licensing model, giúp dễ dàng kích hoạt các chức năng của nhiều ứng dụng Kaspersky hiện có."
             },
             {
-                question: "3. Expert View console được truy cập qua địa chỉ nào?",
+                question: "5. Kaspersky Next XDR Expert bao gồm những gì?",
+                options: ["Chỉ có EDR Expert", "Chỉ có XDR Core", "EDR Expert và XDR Core", "Chỉ có Kaspersky KATA"],
+                correct: 2,
+                explanation: "Kaspersky Next XDR Expert bao gồm tính năng của các tier trước, Kaspersky EDR Expert và Kaspersky XDR Core mới với các tính năng như telemetry gathering, threat hunting, IoA detection."
+            },
+
+            // CATEGORY: Management Consoles
+            {
+                category: "💻 Quản Lý Console",
+                question: "6. Pro View console dựa trên nền tảng nào?",
+                options: ["Kaspersky Security Center", "Kaspersky Endpoint Security Cloud", "Kaspersky KATA", "Kaspersky EDR"],
+                correct: 1,
+                explanation: "Pro View là cloud console dựa trên Kaspersky Endpoint Security Cloud, được thiết kế cho các công ty nhỏ và vừa."
+            },
+            {
+                question: "7. Expert View console được truy cập qua địa chỉ nào?",
                 options: ["https://cloud.kaspersky.com/", "https://ksc.kaspersky.com", "https://edr.kaspersky.com", "https://xdr.kaspersky.com"],
                 correct: 1,
                 explanation: "Expert View được truy cập qua https://ksc.kaspersky.com và dựa trên Kaspersky Security Center Web Console."
             },
             {
-                question: "4. Component nào bảo vệ chống lại phishing websites?",
-                options: ["File Threat Protection", "Web Threat Protection", "Mail Threat Protection", "Network Threat Protection"],
-                correct: 1,
-                explanation: "Web Threat Protection phân tích địa chỉ web và chặn truy cập vào các trang phishing và trang web nguy hiểm."
-            },
-            {
-                question: "5. AMSI là viết tắt của gì?",
-                options: ["Antimalware Security Interface", "Antimalware Scan Interface", "Advanced Malware Security Interface", "Automated Malware Scan Interface"],
-                correct: 1,
-                explanation: "AMSI là Antimalware Scan Interface, một API từ Microsoft giúp quét macros và scripts khi chúng đang chạy."
-            },
-            {
-                question: "6. Component nào giúp giảm attack surface bằng cách hạn chế khởi chạy phần mềm?",
-                options: ["Device Control", "Application Control", "Web Control", "Firewall"],
-                correct: 1,
-                explanation: "Application Control giúp thực thi chính sách bảo mật của công ty bằng cách hạn chế việc khởi chạy phần mềm trên endpoints."
-            },
-            {
-                question: "7. Device Control có thể chặn loại thiết bị nào sau đây?",
-                options: ["USB flash drives", "Keyboards", "Mice", "Monitors"],
-                correct: 0,
-                explanation: "Device Control có thể chặn USB flash drives, nhưng không thể chặn bàn phím và chuột vì chúng không thuộc quy tắc Device Control."
-            },
-            {
-                question: "8. Ransomware là gì?",
-                options: ["Phần mềm bảo vệ dữ liệu", "Trojan mã hóa dữ liệu và đòi tiền chuộc", "Công cụ quản lý mật khẩu", "Hệ thống phát hiện xâm nhập"],
-                correct: 1,
-                explanation: "Ransomware là loại Trojan sửa đổi dữ liệu người dùng khiến họ không thể sử dụng dữ liệu hoặc kiểm soát máy tính, sau đó yêu cầu tiền chuộc."
-            },
-            {
-                question: "9. Component nào có thể khôi phục file bị mã hóa bởi ransomware?",
-                options: ["File Threat Protection", "Remediation Engine", "Behavior Detection", "Exploit Prevention"],
-                correct: 1,
-                explanation: "Remediation Engine rollback các hành động của malware, bao gồm khôi phục các file bị mã hóa bởi ransomware."
-            },
-            {
-                question: "10. Host Intrusion Prevention kiểm soát hoạt động dựa trên gì?",
-                options: ["File size", "Application reputation", "Network speed", "Memory usage"],
-                correct: 1,
-                explanation: "Host Intrusion Prevention kiểm soát hoạt động của các chương trình đang chạy dựa trên reputation của chúng."
-            },
-            {
-                question: "11. Có bao nhiêu trust groups trong Host Intrusion Prevention?",
-                options: ["2", "3", "4", "5"],
+                question: "8. Expert View có thể được deploy ở đâu?",
+                options: ["Chỉ cloud", "Chỉ on-premises", "Cả cloud và on-premises", "Chỉ hybrid mode"],
                 correct: 2,
-                explanation: "Host Intrusion Prevention có 4 trust groups: Trusted, Low Restricted, High Restricted và Untrusted."
+                explanation: "Expert View có thể được deploy cả cloud (https://ksc.kaspersky.com) và on-premises, phù hợp với các công ty lớn có đội ngũ IT security chuyên nghiệp."
             },
             {
-                question: "12. CITO là viết tắt của gì?",
-                options: ["Cybersecurity IT Operations", "Cybersecurity for IT Online", "Cyber Intelligence Tools Online", "Critical IT Operations"],
+                question: "9. Workspace trong cloud console là gì?",
+                options: ["Một văn phòng vật lý", "Instance cho một công ty cụ thể", "Một máy ảo", "Một tài khoản người dùng"],
                 correct: 1,
-                explanation: "CITO là Cybersecurity for IT Online, một khóa đào tạo cung cấp thông tin cơ bản về các khái niệm cybersecurity."
+                explanation: "Workspace là một instance được tạo cho một công ty cụ thể trong Kaspersky Endpoint Security Cloud Console hoặc KSC Cloud Console. MSPs có thể quản lý nhiều workspaces."
             },
             {
-                question: "13. Kaspersky Next EDR Optimum bao gồm training nào?",
-                options: ["KASAP", "CITO", "Both KASAP and CITO", "None"],
+                question: "10. Security profile trong Pro View là gì?",
+                options: ["Cài đặt tài khoản người dùng", "Tập hợp cài đặt cho Kaspersky protection apps", "Cấu hình mạng", "Thông tin license"],
                 correct: 1,
-                explanation: "Kaspersky Next EDR Optimum bao gồm CITO (Cybersecurity for IT Online) training trong license."
+                explanation: "Security profile là tập hợp các cài đặt cho Kaspersky protection applications, có thể tạo nhiều profiles khác nhau (như Sales, Development) và gán cho các users khác nhau."
             },
+
+            // CATEGORY: Endpoint Protection Components
             {
-                question: "14. Behavior Detection so sánh hoạt động của chương trình với gì?",
-                options: ["Virus signatures", "Dangerous activity patterns", "System logs", "Network traffic"],
-                correct: 1,
-                explanation: "Behavior Detection giám sát hành động của chương trình và so sánh chúng với các mẫu hoạt động nguy hiểm (dangerous activity patterns)."
-            },
-            {
-                question: "15. Exploit Prevention bảo vệ chống lại loại tấn công nào?",
-                options: ["Phishing attacks", "Buffer overflow attacks", "DDoS attacks", "Social engineering"],
-                correct: 1,
-                explanation: "Exploit Prevention bảo vệ chống lại các cuộc tấn công exploit như buffer overflow attacks nhằm chiếm quyền quản trị hệ thống."
-            },
-            {
-                question: "16. IoC là viết tắt của gì?",
-                options: ["Internet of Control", "Indicator of Compromise", "Index of Content", "Information Operations Center"],
-                correct: 1,
-                explanation: "IoC là Indicator of Compromise, chỉ báo rằng hệ thống đã bị xâm phạm."
-            },
-            {
-                question: "17. Kaspersky Next XDR Optimum yêu cầu phiên bản Kaspersky Security Center nào?",
-                options: ["14.0", "15.0", "15.4", "16.0"],
+                category: "🛡️ Bảo Vệ Endpoint",
+                question: "11. File Threat Protection sử dụng những công nghệ quét nào?",
+                options: ["Chỉ signature analysis", "Chỉ heuristic analysis", "Signature, heuristic và KSN", "Chỉ KSN"],
                 correct: 2,
-                explanation: "Kaspersky Next XDR Optimum yêu cầu Kaspersky Security Center 15.4 Linux Administration Server."
+                explanation: "File Threat Protection sử dụng cả ba công nghệ: signature analysis (denylist), heuristic analysis (emulation) và KSN checks để phát hiện malware."
             },
             {
-                question: "18. Chức năng Alert aggregation có trong tier nào?",
-                options: ["EDR Foundations", "EDR Optimum", "XDR Optimum", "All tiers"],
+                question: "12. Web Threat Protection thực hiện những chức năng nào?",
+                options: ["Chỉ chặn phishing sites", "Chỉ quét downloaded files", "Phân tích web addresses và quét downloaded objects", "Chỉ kiểm tra certificates"],
                 correct: 2,
-                explanation: "Alert aggregation là tính năng độc quyền của Kaspersky Next XDR Optimum, không có trong EDR Optimum hay EDR Foundations."
+                explanation: "Web Threat Protection có hai chức năng chính: (1) Phân tích địa chỉ webpages và chặn phishing/harmful websites, (2) Quét objects downloaded qua HTTP/HTTPS/FTP."
             },
             {
-                question: "19. Cloud Sandbox integration có sẵn trong tier nào?",
-                options: ["EDR Foundations", "EDR Optimum", "XDR Optimum", "XDR Expert"],
-                correct: 2,
-                explanation: "Cloud Sandbox (TI Sandbox) integration là tính năng của XDR Optimum và XDR Expert."
-            },
-            {
-                question: "20. Active Directory response actions bao gồm hành động nào sau đây?",
-                options: ["Lock user account", "Delete user account", "Create new account", "Backup account data"],
-                correct: 0,
-                explanation: "Active Directory response actions bao gồm: Lock user account, Reset password, Add/Delete user from security group."
-            },
-            {
-                question: "21. KASAP là viết tắt của gì?",
-                options: ["Kaspersky Advanced Security Analysis Platform", "Kaspersky Automated Security Awareness Platform", "Kaspersky Anti-Spam Protection", "Kaspersky Application Security Platform"],
-                correct: 1,
-                explanation: "KASAP là Kaspersky Automated Security Awareness Platform, nền tảng đào tạo nhận thức bảo mật trực tuyến."
-            },
-            {
-                question: "22. File Threat Protection sử dụng công nghệ quét nào?",
-                options: ["Only signature analysis", "Only heuristic analysis", "Signature, heuristic, and KSN", "Only KSN"],
-                correct: 2,
-                explanation: "File Threat Protection sử dụng cả ba công nghệ: signature analysis, heuristic analysis (emulation) và KSN checks."
-            },
-            {
-                question: "23. Web Control có thể quét loại traffic nào?",
-                options: ["Only HTTP", "Only HTTPS", "HTTP and HTTPS", "All protocols"],
-                correct: 2,
-                explanation: "Web Control quét cả HTTP và HTTPS traffic."
-            },
-            {
-                question: "24. Mail Threat Protection hoạt động ở tầng nào?",
-                options: ["Application layer", "Protocol level", "Network layer", "Physical layer"],
+                question: "13. Mail Threat Protection hoạt động ở tầng nào?",
+                options: ["Application layer", "Protocol level (POP3, SMTP, IMAP, NNTP)", "Network layer", "Physical layer"],
                 correct: 1,
                 explanation: "Mail Threat Protection chặn messages ở protocol level (POP3, SMTP, IMAP, NNTP) và bằng cách nhúng vào Microsoft Office Outlook (MAPI)."
             },
             {
-                question: "25. Encryption management hỗ trợ công cụ nào cho Windows?",
-                options: ["FileVault", "BitLocker", "VeraCrypt", "LUKS"],
+                question: "14. Web Threat Protection sử dụng công nghệ nào để phát hiện phishing?",
+                options: ["Chỉ signature database", "Database + heuristic + KSN", "Chỉ AI/ML", "Chỉ user reports"],
                 correct: 1,
-                explanation: "Kaspersky Next EDR/XDR Optimum tích hợp với BitLocker cho Windows và FileVault cho macOS."
+                explanation: "Web Threat Protection sử dụng: (1) Database of malicious/phishing addresses, (2) Heuristic analysis để phát hiện HTML code đặc trưng của phishing, (3) KSN checks."
             },
             {
-                question: "26. Data wipe task có thể được cấu hình để chạy khi nào?",
-                options: ["Only manually", "When device doesn't connect for X days", "Every day", "On user login"],
+                question: "15. AMSI là viết tắt của gì?",
+                options: ["Antimalware Security Interface", "Antimalware Scan Interface", "Advanced Malware Security Interface", "Automated Malware Scan Interface"],
                 correct: 1,
-                explanation: "Data wipe task có thể chạy manually hoặc tự động nếu thiết bị không kết nối với Kaspersky Security Center trong hơn X ngày."
+                explanation: "AMSI là Antimalware Scan Interface - một open API từ Microsoft cho phép anti-virus software quét macros và scripts trong khi chúng đang chạy, giúp phát hiện fileless attacks."
             },
+
+            // CATEGORY: Behavior and Advanced Protection
             {
-                question: "27. Pro View phù hợp với loại công ty nào?",
-                options: ["Large enterprises", "Small and medium-sized companies", "Only MSPs", "Government agencies"],
-                correct: 1,
-                explanation: "Pro View (Kaspersky Endpoint Security Cloud Console) được thiết kế cho các công ty nhỏ và vừa với một hoặc nhiều administrators."
-            },
-            {
-                question: "28. Expert View có thể deploy ở đâu?",
-                options: ["Only cloud", "Only on-premises", "Both cloud and on-premises", "Only hybrid"],
+                category: "🔍 Phát Hiện Hành Vi",
+                question: "16. Behavior Detection thực hiện những chức năng nào?",
+                options: ["Chỉ log activity", "Log activity và detect malware", "Log, detect malware và protect shared folders", "Chỉ protect shared folders"],
                 correct: 2,
-                explanation: "Expert View có thể được deploy cả cloud (https://ksc.kaspersky.com) và on-premises."
+                explanation: "Behavior Detection có ba chức năng: (1) Log application activity, (2) Detect malware và block malicious actions, (3) Protect shared folders against external encryption."
             },
             {
-                question: "29. Mỗi user trong Kaspersky Endpoint Security Cloud có thể cài đặt bảo vệ trên bao nhiêu thiết bị?",
-                options: ["1 computer, 1 mobile", "1 computer, 2 mobiles", "2 computers, 2 mobiles", "Unlimited"],
-                correct: 1,
-                explanation: "Mỗi user có thể cài đặt Kaspersky protection applications trên: 1 client computer hoặc server và 2 mobile devices."
-            },
-            {
-                question: "30. Distribution point trong KSC Cloud Console có chức năng gì?",
-                options: ["Store user data", "Poll the network", "Manage licenses", "Create reports"],
-                correct: 1,
-                explanation: "Distribution points có thể poll network, phân phối installation packages, thực hiện remote installation, và làm update source."
-            },
-            {
-                question: "31. Workspace trong cloud console là gì?",
-                options: ["A physical office", "An instance for a specific company", "A virtual machine", "A user account"],
-                correct: 1,
-                explanation: "Workspace là một instance được tạo cho một công ty cụ thể trong Kaspersky Endpoint Security Cloud Console hoặc KSC Cloud Console."
-            },
-            {
-                question: "32. Security profile trong Pro View là gì?",
-                options: ["User account settings", "Collection of settings for Kaspersky protection apps", "Network configuration", "License information"],
-                correct: 1,
-                explanation: "Security profile là một tập hợp các cài đặt cho Kaspersky protection applications, có thể gán cho các users khác nhau."
-            },
-            {
-                question: "33. Remediation Engine có thể rollback thay đổi ở đâu?",
-                options: ["Only file system", "Only registry", "File system, registry, processes, network", "Only processes"],
+                question: "17. Remediation Engine có thể rollback thay đổi ở những nơi nào?",
+                options: ["Chỉ file system", "Chỉ registry", "File system, registry, processes và network", "Chỉ processes"],
                 correct: 2,
-                explanation: "Remediation Engine rollback thay đổi trên: File system, Registry, Processes và Network interactions."
+                explanation: "Remediation Engine rollback thay đổi trên: (1) File system - xóa created files, restore modified/deleted files, (2) Registry - xóa entries, (3) Processes - terminate, (4) Network - block connections."
             },
             {
-                question: "34. BadUSB Attack Prevention bảo vệ chống lại gì?",
-                options: ["Infected USB drives", "USB devices pretending to be keyboards", "Broken USB ports", "USB power surges"],
+                question: "18. Exploit Prevention bảo vệ chống lại loại tấn công nào?",
+                options: ["Phishing attacks", "Buffer overflow và privilege escalation", "DDoS attacks", "Social engineering"],
                 correct: 1,
-                explanation: "BadUSB Attack Prevention bảo vệ chống lại các cuộc tấn công khi infected USB flash drive giả làm keyboard."
+                explanation: "Exploit Prevention bảo vệ chống lại exploit attacks như buffer overflow nhằm chiếm quyền quản trị hoặc ẩn mã thực thi. Component giám sát start operations và chặn executable được khởi chạy bởi vulnerable programs."
             },
             {
-                question: "35. Kaspersky Next XDR Optimum license cho phép bao nhiêu queries đến TI Portal mỗi năm?",
+                question: "19. Host Intrusion Prevention kiểm soát hoạt động dựa trên gì?",
+                options: ["File size", "Application reputation", "Network speed", "Memory usage"],
+                correct: 1,
+                explanation: "Host Intrusion Prevention kiểm soát hoạt động của programs dựa trên reputation của chúng, phân loại vào các trust groups và giới hạn truy cập file system, registry, devices và interaction với programs khác."
+            },
+            {
+                question: "20. Host Intrusion Prevention có bao nhiêu trust groups?",
+                options: ["2", "3", "4", "5"],
+                correct: 2,
+                explanation: "Host Intrusion Prevention có 4 trust groups: Trusted, Low Restricted, High Restricted và Untrusted. Restrictions tự động áp dụng cho child processes của program."
+            },
+
+            // CATEGORY: Security Controls
+            {
+                category: "🔐 Kiểm Soát Bảo Mật",
+                question: "21. Application Control giúp gì cho doanh nghiệp?",
+                options: ["Tăng tốc độ ứng dụng", "Hạn chế khởi chạy software", "Quản lý licenses", "Backup ứng dụng"],
+                correct: 1,
+                explanation: "Application Control giúp thực thi chính sách bảo mật bằng cách hạn chế việc khởi chạy software trên endpoints, giảm attack surface và nguy cơ nhiễm malware."
+            },
+            {
+                question: "22. Application Control có những operating modes nào?",
+                options: ["Chỉ Allow mode", "Chỉ Deny mode", "Default deny và Default allow", "Monitor mode only"],
+                correct: 2,
+                explanation: "Application Control có hai operating modes: Default deny (chỉ cho phép các programs trong whitelist) và Default allow (chặn programs trong blacklist)."
+            },
+            {
+                question: "23. Device Control có thể kiểm soát những loại thiết bị nào?",
+                options: ["Chỉ USB drives", "USB, CD/DVD, printers, Wi-Fi", "Chỉ keyboards và mice", "Chỉ network devices"],
+                correct: 1,
+                explanation: "Device Control có thể kiểm soát: removable drives, printers, CD/DVD drives, non-corporate network connections, Wi-Fi. Keyboards và mice KHÔNG bị kiểm soát vì lý do bảo mật."
+            },
+            {
+                question: "24. Device Control cung cấp các quyền truy cập nào cho storage devices?",
+                options: ["Chỉ Allow/Block", "Read-only, Write, Full access", "Allow/Block/Notify", "Chỉ Read-only"],
+                correct: 1,
+                explanation: "Device Control cho phép cấu hình chi tiết: cho phép copy FROM devices nhưng cấm write TO devices, thiết lập schedule truy cập (chỉ trong giờ làm việc), tạo trusted devices list."
+            },
+            {
+                question: "25. BadUSB Attack Prevention bảo vệ chống lại gì?",
+                options: ["Infected USB drives", "USB devices giả làm keyboards", "Broken USB ports", "USB power surges"],
+                correct: 1,
+                explanation: "BadUSB Attack Prevention bảo vệ chống lại infected USB flash drives giả làm keyboard để thực hiện attacks. Đây là component riêng vì keyboards/mice không thuộc Device Control rules."
+            },
+            {
+                question: "26. Web Control quét những loại traffic nào?",
+                options: ["Chỉ HTTP", "Chỉ HTTPS", "HTTP và HTTPS", "Tất cả protocols"],
+                correct: 2,
+                explanation: "Web Control quét HTTP và HTTPS traffic. Component lọc internet access theo internal policy của công ty, có thể block hoặc warn users về undesired sites."
+            },
+            {
+                question: "27. Firewall trong Kaspersky Next có chức năng gì?",
+                options: ["Chỉ block incoming traffic", "Chỉ monitor traffic", "Control incoming/outgoing network connections", "Chỉ log traffic"],
+                correct: 2,
+                explanation: "Firewall component kiểm soát cả incoming và outgoing network connections, là một phần của Security Management layer giúp giảm attack surface."
+            },
+
+            // CATEGORY: Ransomware Protection
+            {
+                category: "🔒 Bảo Vệ Ransomware",
+                question: "28. Ransomware là gì?",
+                options: ["Antivirus software", "Trojan mã hóa dữ liệu và đòi tiền chuộc", "Password manager", "Firewall"],
+                correct: 1,
+                explanation: "Ransomware là loại Trojan sửa đổi user data khiến victim không thể sử dụng data hoặc kiểm soát máy tính, sau đó đòi tiền chuộc. Năm 2023, Kaspersky phát hiện hơn 23,364 modifications và 43 families mới."
+            },
+            {
+                question: "29. Ransomware attack có những giai đoạn nào?",
+                options: ["Chỉ Execution", "Delivery và Execution", "Delivery, Execution, Ransom demand", "Chỉ Delivery"],
+                correct: 2,
+                explanation: "Ransomware attack gồm: (1) Delivery - phishing, exploits, USB, (2) Execution - mã hóa files, (3) Ransom demand - yêu cầu tiền, (4) Data decryption (optional)."
+            },
+            {
+                question: "30. Phương thức phổ biến nhất để deliver ransomware là gì?",
+                options: ["Physical access", "Phishing và USB attacks", "Bluetooth", "NFC"],
+                correct: 1,
+                explanation: "Hai phương thức phổ biến nhất là: (1) Phishing - qua email, messengers, social networks; (2) USB attacks - infected flash drives được cắm vào corporate computers."
+            },
+            {
+                question: "31. Component nào khôi phục files bị ransomware mã hóa?",
+                options: ["File Threat Protection", "Remediation Engine", "Behavior Detection", "Exploit Prevention"],
+                correct: 1,
+                explanation: "Remediation Engine khôi phục files bị mã hóa bởi ransomware. Component này rollback changes và tạo backup copies của special objects (hosts, boot.ini, startup registry keys)."
+            },
+            {
+                question: "32. Anti-Cryptor protection hoạt động như thế nào?",
+                options: ["Chỉ log events", "Block write/delete operations trong 60 phút", "Chỉ notify user", "Shutdown máy tính"],
+                correct: 1,
+                explanation: "Khi Anti-Cryptor (Behavior Detection) phát hiện encryption attempt trên shared folders qua network, nó blocks write và delete operations cho session đó trong 60 phút, sau đó dùng Remediation Engine để restore files."
+            },
+
+            // CATEGORY: Vulnerability Management
+            {
+                category: "🔧 Quản Lý Lỗ Hổng",
+                question: "33. Vulnerability assessment có trong tier nào?",
+                options: ["Chỉ XDR Expert", "Chỉ EDR Optimum", "Tất cả tiers", "EDR Optimum trở lên"],
+                correct: 2,
+                explanation: "Vulnerability assessment có trong TẤT CẢ các tiers. Tuy nhiên, EDR Foundations chỉ có vulnerability assessment, không có patch management. EDR Optimum trở lên có cả hai."
+            },
+            {
+                question: "34. Network Agent thu thập thông tin gì về vulnerabilities?",
+                options: ["Chỉ Windows updates", "Windows updates và third-party vulnerabilities", "Chỉ third-party apps", "Chỉ Microsoft apps"],
+                correct: 1,
+                explanation: "Network Agent thu thập: (1) Microsoft software updates (đã cài và cần cài), (2) Vulnerabilities trong Microsoft và third-party applications - monitors app launches và scans theo schedule."
+            },
+            {
+                question: "35. Install required updates task có thể làm gì?",
+                options: ["Chỉ scan vulnerabilities", "Chỉ download updates", "Download và deploy updates theo rules", "Chỉ report vulnerabilities"],
+                correct: 2,
+                explanation: "Install required updates and fix vulnerabilities task cho phép KSC distribution point download tất cả updates theo rules và deploy chúng throughout the network."
+            },
+
+            // CATEGORY: EDR Capabilities
+            {
+                category: "🎯 EDR Capabilities",
+                question: "36. EDR Foundations tier bao gồm EDR features nào?",
+                options: ["Full EDR features", "Chỉ root cause analysis", "IoC scanning only", "Không có EDR features"],
+                correct: 1,
+                explanation: "Kaspersky Next EDR Foundations CHỈ bao gồm root cause analysis. Không có IoC scanning, endpoint response hay automated response. EDR Optimum có đầy đủ essential EDR capabilities."
+            },
+            {
+                question: "37. IoC là viết tắt của gì?",
+                options: ["Internet of Control", "Indicator of Compromise", "Index of Content", "Information Operations Center"],
+                correct: 1,
+                explanation: "IoC là Indicator of Compromise - objects (files, registry keys, etc.) cho thấy system đã bị compromised. IoCs được dùng để detect malicious activity ở giai đoạn sớm."
+            },
+            {
+                question: "38. EDR capabilities cung cấp những tính năng nào?",
+                options: ["Chỉ monitoring", "Additional threat context và response measures", "Chỉ reporting", "Chỉ alerting"],
+                correct: 1,
+                explanation: "EDR capabilities cung cấp: (1) Additional context về threats qua incident cards, (2) Threat containment - isolate device, quarantine, prevent execution, (3) IoC Scan tasks với automatic response actions."
+            },
+            {
+                question: "39. Enriched events là gì?",
+                options: ["Events có nhiều details", "Detection events có additional context từ EDR", "Chỉ critical events", "Events từ multiple sources"],
+                correct: 1,
+                explanation: "Enriched events là detection events mà Kaspersky Next EDR/XDR đã thu thập thêm events và context. Chúng được hiển thị dưới dạng alert cards với threat chain graphs."
+            },
+            {
+                question: "40. Alert card bao gồm những thông tin nào?",
+                options: ["Chỉ threat name", "Chỉ affected device", "Action, chain graph, detection info, device/process/object info, TI data, file history", "Chỉ timestamp"],
+                correct: 2,
+                explanation: "Alert card bao gồm: (1) Action applied to threat, (2) Chain of malicious events (graph), (3) Detection info, (4) Device info, (5) Malicious process info, (6) Detected object info, (7) KSN/TI data, (8) File history."
+            },
+
+            // CATEGORY: Threat Response
+            {
+                category: "⚡ Phản Ứng Sự Cố",
+                question: "41. Các stages của incident response là gì?",
+                options: ["Chỉ Analysis", "Analysis và Investigation", "Analysis, Investigation, Containment, Eradication, Closing", "Chỉ Containment"],
+                correct: 2,
+                explanation: "Incident response gồm: (1) Analysis of alert details, (2) Investigation, (3) Threat containment, (4) Scanning for IoCs, (5) Threat eradication và recovery, (6) Closing incident."
+            },
+            {
+                question: "42. Threat containment actions bao gồm gì?",
+                options: ["Chỉ isolate hosts", "Isolate hosts, prevent execution, quarantine files", "Chỉ quarantine", "Chỉ notify user"],
+                correct: 1,
+                explanation: "Threat containment bao gồm: (1) Isolate hosts with suspicious activity, (2) Prevent execution của suspicious executables/documents/scripts, (3) Quarantine suspicious files để prevent harm."
+            },
+            {
+                question: "43. Khi isolate một device, điều gì xảy ra?",
+                options: ["Device bị tắt nguồn", "Network activity bị hạn chế tối đa", "Chỉ internet bị block", "Không có gì thay đổi"],
+                correct: 1,
+                explanation: "Khi isolate device từ alert card, network activity của device bị hạn chế tối đa (maximally restricted). User sẽ thấy notification báo computer isolated from network."
+            },
+            {
+                question: "44. Prevent execution feature làm gì?",
+                options: ["Xóa files", "Tạo blocking rule trong policy/profile", "Rename files", "Move to backup"],
+                correct: 1,
+                explanation: "Prevent execution button trong file details pane tạo blocking rule trong policy hoặc security profile để prevent detected files từ running trên endpoint devices."
+            },
+            {
+                question: "45. Quarantine files có thể được restore không?",
+                options: ["Không, bị xóa vĩnh viễn", "Có, nếu investigation shows file không dangerous", "Chỉ trong 24 giờ", "Chỉ bởi Kaspersky support"],
+                correct: 1,
+                explanation: "Files trong quarantine được move to encrypted local storage. Nếu investigation cho thấy file không dangerous, có thể restore về original folder. Đây là lợi thế so với việc xóa hoàn toàn."
+            },
+
+            // CATEGORY: XDR Optimum Features
+            {
+                category: "🚀 XDR Optimum",
+                question: "46. Kaspersky Next XDR Optimum yêu cầu phiên bản KSC nào?",
+                options: ["14.0", "15.0", "15.4", "16.0"],
+                correct: 2,
+                explanation: "Kaspersky Next XDR Optimum yêu cầu: (1) KSC 15.4 Linux Administration Server với XDR Optimum license, (2) KSC 15.4 Web Console với EDR 15.4 web plug-in, (3) KES với EDR Optimum component."
+            },
+            {
+                question: "47. XDR Optimum khác với EDR Optimum như thế nào?",
+                options: ["Giống nhau hoàn toàn", "XDR có alert aggregation, KASAP/AD integration, TI Sandbox", "Chỉ khác tên", "XDR rẻ hơn"],
+                correct: 1,
+                explanation: "XDR Optimum mở rộng EDR Optimum với: (1) Alert aggregation, (2) KASAP integration để assign training, (3) Active Directory response actions, (4) TI Sandbox queries."
+            },
+            {
+                question: "48. Alert aggregation gom nhóm alerts dựa trên tiêu chí nào?",
+                options: ["Chỉ device name", "Chỉ file hash", "Device, user account, file hash", "Chỉ timestamp"],
+                correct: 2,
+                explanation: "Alert aggregation groups similar alerts based on: (1) Device name, (2) User account used to launch malicious object, (3) File hash. Điều này giảm thời gian phân tích incidents."
+            },
+            {
+                question: "49. TI Sandbox integration cho phép làm gì?",
+                options: ["Chỉ view reports", "Gửi suspicious objects từ quarantine để analysis", "Chỉ download malware", "Không có chức năng"],
+                correct: 1,
+                explanation: "TI Sandbox integration cho phép gửi files từ KSC quarantine repository đến Cloud Sandbox để dynamic analysis trong isolated environment, tạo detailed reports với IoCs."
+            },
+            {
+                question: "50. Kaspersky Next XDR Optimum license cho phép bao nhiêu TI Portal queries mỗi năm?",
                 options: ["Number of licenses x 0.2", "Number of licenses x 0.5", "Number of licenses x 1", "Unlimited"],
                 correct: 1,
-                explanation: "Số lượng TI Portal queries = <Number of licensing units> x 0.5 per year."
+                explanation: "Công thức: <Number of licensing units> x 0.5 = <TI Portal queries per year>. Ví dụ: 100 licenses = 50 queries/year."
+            },
+
+            // CATEGORY: KASAP Integration
+            {
+                category: "🎓 KASAP Integration",
+                question: "51. KASAP là viết tắt của gì?",
+                options: ["Kaspersky Advanced Security Analysis Platform", "Kaspersky Automated Security Awareness Platform", "Kaspersky Anti-Spam Protection", "Kaspersky Application Security Platform"],
+                correct: 1,
+                explanation: "KASAP là Kaspersky Automated Security Awareness Platform - online training platform giúp users học information security rules và repel threats."
             },
             {
-                question: "36. KASAP training slots được tính như thế nào?",
+                question: "52. KASAP training slots được tính như thế nào trong XDR Optimum?",
                 options: ["Number of licenses x 0.1", "Number of licenses x 0.2", "Number of licenses x 0.5", "Number of licenses x 1"],
                 correct: 1,
-                explanation: "Số training slots = <Number of licensing units> x 0.2, ví dụ: 100 licenses = 20 training slots."
+                explanation: "Công thức: <Number of licensing units> x 0.2 = <training slots>. Ví dụ: 100 licenses = 20 employees có thể training đồng thời trong KASAP."
             },
             {
-                question: "37. Alert aggregation gom nhóm alerts dựa trên tiêu chí nào?",
-                options: ["Only device name", "Only file hash", "Device, user account, file hash", "Only timestamp"],
-                correct: 2,
-                explanation: "Alert aggregation nhóm alerts dựa trên: device, user account used to launch malicious object, và file hash."
+                question: "53. Để KASAP integration hoạt động, cần điều kiện gì về user accounts?",
+                options: ["Chỉ cần username", "Email address match giữa KSC và KASAP", "Chỉ cần phone number", "Không cần gì"],
+                correct: 1,
+                explanation: "Users được identify bởi email addresses. Cần: (1) Email field điền đúng trong KSC database (từ AD E-mail attribute), (2) User với cùng email được tạo trên KASAP."
             },
             {
-                question: "38. LDAPS sử dụng port nào?",
+                question: "54. KASAP response action từ alert card làm gì?",
+                options: ["Block user", "Add user account đến training group", "Reset password", "Lock account"],
+                correct: 1,
+                explanation: "Từ alert card, có thể assign KASAP course bằng cách add user account related to alert vào specified training group trên KASAP portal để raise employee awareness."
+            },
+            {
+                question: "55. KASAP API token cần những quyền tối thiểu nào?",
+                options: ["Chỉ read", "Get training groups, Get reports, Edit user info", "Full admin", "Chỉ write"],
+                correct: 1,
+                explanation: "API token cần: (1) Get list of training groups - để access groups, (2) Get reports - access users và training status, (3) Edit user information - move users between groups."
+            },
+
+            // CATEGORY: Active Directory Integration
+            {
+                category: "🔐 Active Directory",
+                question: "56. Active Directory response actions bao gồm những gì?",
+                options: ["Chỉ lock account", "Lock, reset password, add/remove from security group", "Chỉ delete account", "Chỉ create account"],
+                correct: 1,
+                explanation: "AD response actions: (1) Lock user account, (2) Reset password, (3) Add user to security group, (4) Delete user from security group. Không bao gồm delete account."
+            },
+            {
+                question: "57. LDAPS sử dụng port nào?",
                 options: ["389", "636", "443", "3389"],
                 correct: 1,
-                explanation: "LDAPS (LDAP over TLS) sử dụng TCP port 636 để kết nối bảo mật với domain controller."
+                explanation: "LDAPS (LDAP over TLS) sử dụng TCP port 636. Administration Server gửi LDAP requests đến DC qua secure TLS channel (LDAPS) để perform response actions."
             },
             {
-                question: "39. EDR capabilities trong Foundations tier bao gồm gì?",
-                options: ["Full EDR features", "Only root cause analysis", "IoC scanning only", "No EDR features"],
+                question: "58. Để configure AD integration, cần điều kiện gì về certificates?",
+                options: ["Không cần certificates", "DC certificate và CA chain phải trong trusted store của KSC host", "Chỉ cần DC certificate", "Chỉ cần CA certificate"],
                 correct: 1,
-                explanation: "Kaspersky Next EDR Foundations chỉ bao gồm root cause analysis, không có IoC scanning hay automated response."
+                explanation: "Yêu cầu: (1) LDAPS configured trên DC (certificate issued for DC), (2) Certificate including CA chain must be added to trusted certificate store on KSC host, (3) TCP port 636 not blocked."
             },
             {
-                question: "40. Vulnerability assessment có trong tier nào?",
-                options: ["Only XDR Expert", "Only EDR Optimum", "All tiers", "EDR Optimum and higher"],
+                question: "59. Lock account action có tác dụng gì?",
+                options: ["Chỉ log event", "User mất access to all domain resources", "Chỉ block internet", "Chỉ slow down computer"],
+                correct: 1,
+                explanation: "Sau khi lock account, user loses access to ALL domain resources. Lần login tiếp theo, user được notify account disabled và phải contact system administrator."
+            },
+            {
+                question: "60. Reset password action yêu cầu user làm gì?",
+                options: ["Không cần làm gì", "Set new password at next login", "Call IT support", "Reinstall OS"],
+                correct: 1,
+                explanation: "Sau reset password action, lần login tiếp theo user sẽ REQUIRED to set a new password. Điều này giúp minimize attack risk và restore account control without complete blocking."
+            },
+
+            // CATEGORY: Cloud Protection
+            {
+                category: "☁️ Cloud Protection",
+                question: "61. Cloud Discovery có trong tier nào?",
+                options: ["Chỉ XDR Expert", "EDR Optimum trở lên", "Tất cả tiers", "Chỉ EDR Foundations"],
                 correct: 2,
-                explanation: "Vulnerability assessment có trong tất cả các tiers, nhưng EDR Foundations chỉ có vulnerability assessment, không có patch management."
+                explanation: "Cloud Discovery có trong TẤT CẢ các tiers của Kaspersky Next. Nó cho phép monitor cloud services đang được sử dụng."
             },
             {
-                question: "41. Mobile protection trong EDR Foundations bao gồm?",
-                options: ["No mobile protection", "Basic MDM", "Advanced MDM", "Full KSMM"],
+                question: "62. Cloud Discovery blocking có trong tier nào?",
+                options: ["Tất cả tiers", "Tất cả tiers trừ EDR Foundations", "Chỉ XDR Expert", "Không có tier nào"],
                 correct: 1,
-                explanation: "EDR Foundations bao gồm Basic MDM functionality, trong khi EDR Optimum có Advanced MDM (KSMM)."
+                explanation: "Cloud Discovery blocking available trong tất cả tiers TRỪ Kaspersky Next EDR Foundations. EDR Foundations chỉ có monitoring, không có blocking."
             },
             {
-                question: "42. Cloud Discovery có trong tier nào?",
-                options: ["Only XDR Expert", "EDR Optimum and higher", "All tiers", "Only EDR Foundations"],
+                question: "63. Security for Microsoft 365 làm gì?",
+                options: ["Chỉ monitor", "Scan files qua M365 services for malware", "Chỉ backup", "Chỉ encrypt"],
+                correct: 1,
+                explanation: "Kaspersky Security for Microsoft Office 365 scans files users send through Microsoft 365 services for malware. Available trong EDR/XDR Optimum và XDR Expert."
+            },
+            {
+                question: "64. Data Discovery có chức năng gì?",
+                options: ["Backup data", "Scan data stored in Microsoft 365 files", "Delete data", "Encrypt data"],
+                correct: 1,
+                explanation: "Data Discovery scans data stored trong Microsoft 365 files của bạn để tìm sensitive data. Chỉ available qua Pro View trong EDR/XDR Optimum và XDR Expert."
+            },
+            {
+                question: "65. Security for Microsoft 365 chỉ available qua console nào?",
+                options: ["Expert View", "Pro View", "Cả hai consoles", "Command line"],
+                correct: 1,
+                explanation: "Security for Microsoft 365 và Data Discovery CHỈ available through Pro View console, không có trong Expert View."
+            },
+
+            // CATEGORY: Encryption and Mobile
+            {
+                category: "🔐 Encryption & Mobile",
+                question: "66. Encryption management trong EDR/XDR Optimum hỗ trợ công cụ nào?",
+                options: ["Chỉ BitLocker", "BitLocker cho Windows và FileVault cho macOS", "Chỉ FileVault", "VeraCrypt"],
+                correct: 1,
+                explanation: "Kaspersky Next EDR/XDR Optimum integrates với BitLocker (for Windows) và FileVault (for macOS) để centrally manage host encryption through management console."
+            },
+            {
+                question: "67. Kaspersky crypto module available ở đâu?",
+                options: ["Tất cả tiers", "Pro View", "Expert View On-Prem", "Cloud console"],
                 correct: 2,
-                explanation: "Cloud Discovery có trong tất cả các tiers của Kaspersky Next."
+                explanation: "Encryption với Kaspersky crypto module CHỈ available qua Expert View On-Prem trong EDR/XDR Optimum và XDR Expert."
             },
             {
-                question: "43. Security for Microsoft 365 chỉ khả dụng qua console nào?",
-                options: ["Expert View", "Pro View", "Both consoles", "Command line only"],
+                question: "68. Mobile protection trong EDR Foundations bao gồm?",
+                options: ["Không có mobile protection", "Basic MDM", "Advanced MDM", "Full KSMM"],
                 correct: 1,
-                explanation: "Security for Microsoft 365 chỉ available through Pro View console."
+                explanation: "EDR Foundations có Basic MDM functionality. EDR Optimum và cao hơn có Advanced MDM (KSMM - Kaspersky Security for Mobile Management)."
             },
             {
-                question: "44. SIEM event export via Syslog available ở đâu?",
-                options: ["Pro View", "Expert View", "Both consoles", "Not available"],
+                question: "69. iOS MDM Server available ở đâu?",
+                options: ["Tất cả consoles", "Pro View và Expert View On-Prem", "Chỉ Pro View", "Chỉ Expert View"],
                 correct: 1,
-                explanation: "SIEM event export via Syslog chỉ available trong Expert View (cloud và on-prem)."
+                explanation: "iOS MDM Server available trong: (1) Pro View (all tiers), (2) Expert View On-Prem (EDR Optimum và XDR Expert). Không có trong cloud Expert View."
             },
             {
-                question: "45. Kaspersky Next XDR Expert bao gồm component nào sau đây?",
-                options: ["Only EDR Expert", "Only XDR Core", "EDR Expert and XDR Core", "Only KATA"],
+                question: "70. Mỗi user có thể cài protection trên bao nhiêu mobile devices?",
+                options: ["1 mobile", "2 mobiles", "3 mobiles", "Unlimited"],
+                correct: 1,
+                explanation: "Trong Kaspersky Endpoint Security Cloud, mỗi user có thể cài protection trên: (1) One client computer hoặc server, (2) Two mobile devices."
+            },
+
+            // CATEGORY: IT Scenarios
+            {
+                category: "🔧 IT Scenarios",
+                question: "71. Data wipe task có thể được trigger khi nào?",
+                options: ["Chỉ manually", "Device không connect for X days", "Mỗi ngày", "Khi user login"],
+                correct: 1,
+                explanation: "Data wipe task có thể run manually hoặc configured để start automatically nếu device KHÔNG connect to KSC for more than X days. Giúp bảo vệ data trên lost laptops."
+            },
+            {
+                question: "72. Data wipe có thể xóa data theo cách nào?",
+                options: ["Chỉ dùng OS tools", "OS tools hoặc overwrite with random data", "Chỉ move to recycle bin", "Chỉ rename files"],
+                correct: 1,
+                explanation: "Data wipe có thể delete user data (folders/files) bằng: (1) OS tools, hoặc (2) Overwriting data with randomly generated files để eliminate recovery ability."
+            },
+            {
+                question: "73. Software inventory available ở đâu?",
+                options: ["Pro View", "Expert View", "Cả hai", "Không có"],
+                correct: 1,
+                explanation: "Software inventory CHỈ available qua Expert View (cloud và on-prem) trong tất cả tiers. Không có trong Pro View."
+            },
+            {
+                question: "74. Hardware inventory available ở đâu?",
+                options: ["Pro View", "Expert View", "Cả hai", "Không có"],
+                correct: 1,
+                explanation: "Hardware inventory CHỈ available qua Expert View (cloud và on-prem) trong tất cả tiers. Không có trong Pro View."
+            },
+            {
+                question: "75. Installation of third-party applications available ở tier nào?",
+                options: ["Tất cả tiers", "EDR Optimum trở lên qua Expert View", "Chỉ XDR Expert", "Không có tier nào"],
+                correct: 1,
+                explanation: "Installation of third-party applications CHỈ available trong EDR/XDR Optimum và XDR Expert qua Expert View (cloud và on-prem)."
+            },
+            {
+                question: "76. Installation of operating systems available ở đâu?",
+                options: ["Pro View", "Expert View Cloud", "Expert View On-Prem", "Tất cả consoles"],
                 correct: 2,
-                explanation: "Kaspersky Next XDR Expert bao gồm features của các tier trước, Kaspersky EDR Expert và Kaspersky XDR Core mới."
+                explanation: "Installation of operating systems CHỈ available qua Expert View On-Prem trong EDR/XDR Optimum và XDR Expert. Không có trong cloud consoles."
             },
+
+            // CATEGORY: Training and Education
             {
-                question: "46. MITRE ATT&CK mapping có trong tier nào?",
-                options: ["All tiers", "EDR Optimum and higher", "XDR Optimum and higher", "Only XDR Expert"],
-                correct: 3,
-                explanation: "MITRE ATT&CK mapping là advanced EDR capability chỉ có trong XDR Expert."
-            },
-            {
-                question: "47. Threat hunting capability có trong tier nào?",
-                options: ["All tiers", "EDR Optimum and higher", "XDR Optimum and higher", "Only XDR Expert"],
-                correct: 3,
-                explanation: "Threat hunting là advanced EDR capability chỉ available trong Kaspersky Next XDR Expert."
-            },
-            {
-                question: "48. Playbooks và Investigation graph có trong tier nào?",
-                options: ["XDR Optimum", "XDR Expert", "EDR Optimum", "All XDR tiers"],
+                category: "📚 Đào Tạo",
+                question: "77. CITO là viết tắt của gì?",
+                options: ["Cybersecurity IT Operations", "Cybersecurity for IT Online", "Cyber Intelligence Tools Online", "Critical IT Operations"],
                 correct: 1,
-                explanation: "Playbooks và Investigation graph là advanced XDR capabilities chỉ có trong XDR Expert."
+                explanation: "CITO là Cybersecurity for IT Online - training cho IT professionals về malware, exploits, server security, investigation basics, AD security, phishing và OSINT."
             },
             {
-                question: "49. Migration từ KES Cloud Plus sang Next EDR Foundations ảnh hưởng gì?",
-                options: ["No changes", "Security for Microsoft 365 becomes inactive", "All features remain", "Need to reinstall all apps"],
+                question: "78. CITO được bao gồm trong tier nào?",
+                options: ["Tất cả tiers", "EDR Optimum trở lên", "Chỉ XDR Expert", "Không có tier nào"],
                 correct: 1,
-                explanation: "Khi migrate từ KES Cloud Plus sang Next EDR Foundations, Kaspersky Security for Microsoft Office 365 component sẽ trở nên inactive."
+                explanation: "CITO (Cybersecurity for IT Online) training được include trong license của EDR Optimum, XDR Optimum và XDR Expert. Không có trong EDR Foundations."
             },
             {
-                question: "50. Hosted Discovery Service (HDS) sử dụng port nào?",
+                question: "79. CITO bao gồm những modules nào?",
+                options: ["Chỉ 1 module", "3 modules", "6 modules", "10 modules"],
+                correct: 2,
+                explanation: "CITO gồm 6 modules: (1) Malware, (2) Potentially unwanted programs and exploits, (3) Server security, (4) Investigation basics, (5) Active Directory security, (6) Phishing and OSINT."
+            },
+            {
+                question: "80. KASAP training chỉ có trong tier nào?",
+                options: ["EDR Foundations", "EDR Optimum", "XDR Optimum", "Tất cả tiers"],
+                correct: 2,
+                explanation: "Kaspersky Security Awareness training (KASAP) CHỈ có trong XDR Optimum (assign course from alert) và XDR Expert. Có thể mua dedicated license riêng."
+            },
+
+            // CATEGORY: Distribution Points and Architecture
+            {
+                category: "🏗️ Kiến Trúc Hệ Thống",
+                question: "81. Distribution point có những chức năng nào?",
+                options: ["Chỉ poll network", "Poll, distribute packages, remote install, proxy KSN", "Chỉ update source", "Chỉ log events"],
+                correct: 1,
+                explanation: "Distribution points: (1) Poll network, (2) Distribute installation packages, (3) Remote installation, (4) Distribute policies/tasks, (5) Update source, (6) KSN Proxy."
+            },
+            {
+                question: "82. Hosted Discovery Service (HDS) sử dụng port nào?",
                 options: ["80", "443", "8080", "3389"],
                 correct: 1,
-                explanation: "Hosted Discovery Service (HDS) sử dụng TCP port 443 để Network Agent có thể tìm workspace của nó."
+                explanation: "HDS (Hosted Discovery Service) sử dụng TCP port 443. Network Agent connects to HDS để get workspace address và port vì workspace không bound to particular VM (có thể migrate)."
+            },
+            {
+                question: "83. KSC Cloud Console workspace address có format như thế nào?",
+                options: ["https://ksc.kaspersky.com", "https://s<ID>.cloud.kaspersky.com", "https://workspace.kaspersky.com", "https://admin.kaspersky.com"],
+                correct: 1,
+                explanation: "Kaspersky Endpoint Security Cloud Console workspace address format: https://s<ID>.cloud.kaspersky.com. Mỗi workspace có dedicated server maintained by Kaspersky experts."
+            },
+            {
+                question: "84. Network Agent trong KSC Cloud biết workspace address như thế nào?",
+                options: ["Hardcoded trong config", "Connect to HDS với workspace ID", "User nhập manually", "Tự động detect"],
+                correct: 1,
+                explanation: "Network Agent chỉ biết workspace ID. Nó connects to Hosted Discovery Service (HDS) trên port 443 để get workspace address và port vì workspace có thể migrate giữa các VMs."
+            },
+            {
+                question: "85. Để add devices vào KSC Cloud Console, cần gì trước tiên?",
+                options: ["Install on all devices", "Configure at least one distribution point", "Create policies", "Add licenses"],
+                correct: 1,
+                explanation: "Để add devices vào KSC Cloud Console, cần: (1) Connect ít nhất one computer (recommend dùng standalone Network Agent package), (2) Assign distribution points, (3) Enable polling, (4) Wait 30-60 min for discovery."
+            },
+
+            // CATEGORY: SIEM and Integration
+            {
+                category: "🔗 SIEM Integration",
+                question: "86. SIEM event export via Syslog available ở đâu?",
+                options: ["Pro View", "Expert View", "Cả hai", "Không có"],
+                correct: 1,
+                explanation: "SIEM event export via Syslog protocol CHỈ available trong Expert View (cloud và on-prem) cho tất cả tiers. Không có trong Pro View."
+            },
+            {
+                question: "87. SIEM event export via CEF/LEFF available ở đâu?",
+                options: ["Pro View", "Expert View Cloud", "Expert View On-Prem, KSC Win only", "Tất cả"],
+                correct: 2,
+                explanation: "SIEM event export via CEF/LEFF CHỈ available trong Expert View On-Prem, KSC Windows only, cho EDR/XDR Optimum và XDR Expert."
+            },
+
+            // CATEGORY: XDR Expert Features
+            {
+                category: "🎖️ XDR Expert",
+                question: "88. MITRE ATT&CK mapping có trong tier nào?",
+                options: ["Tất cả tiers", "EDR Optimum trở lên", "XDR Optimum trở lên", "Chỉ XDR Expert"],
+                correct: 3,
+                explanation: "MITRE ATT&CK mapping là advanced EDR capability CHỈ có trong Kaspersky Next XDR Expert, không có trong các tier thấp hơn."
+            },
+            {
+                question: "89. Threat hunting capability có trong tier nào?",
+                options: ["Tất cả tiers", "EDR Optimum trở lên", "XDR Optimum trở lên", "Chỉ XDR Expert"],
+                correct: 3,
+                explanation: "Threat hunting là advanced EDR capability CHỈ available trong XDR Expert. Đây là khả năng proactively search for threats trong environment."
+            },
+            {
+                question: "90. IoA là viết tắt của gì?",
+                options: ["Internet of Applications", "Indicator of Attack", "Index of Activities", "Information Operations Analytics"],
+                correct: 1,
+                explanation: "IoA là Indicator of Attack - indicators showing an attack is in progress or about to happen. IoA detection là advanced EDR capability chỉ có trong XDR Expert."
+            },
+            {
+                question: "91. Gathering telemetry có trong tier nào?",
+                options: ["Tất cả tiers", "EDR Optimum trở lên", "XDR Optimum trở lên", "Chỉ XDR Expert"],
+                correct: 3,
+                explanation: "Gathering telemetry (collecting detailed data from endpoints) là advanced EDR capability chỉ có trong XDR Expert để support threat hunting và analysis."
+            },
+            {
+                question: "92. Cross-correlation feature làm gì?",
+                options: ["Delete duplicates", "Correlate events from multiple sources", "Chỉ log events", "Backup data"],
+                correct: 1,
+                explanation: "Cross-correlation là advanced XDR capability trong XDR Expert, correlates events từ multiple sources (endpoints, network, cloud) để detect sophisticated attacks."
+            },
+            {
+                question: "93. Playbooks trong XDR Expert là gì?",
+                options: ["Game manuals", "Automated response workflows", "User guides", "Training materials"],
+                correct: 1,
+                explanation: "Playbooks là automated response workflows trong XDR Expert, định nghĩa automatic actions to take when certain conditions detected, giúp faster và consistent response."
+            },
+            {
+                question: "94. Investigation graph trong XDR Expert giúp gì?",
+                options: ["Vẽ charts", "Visual representation of attack progression", "Chỉ show statistics", "Create reports"],
+                correct: 1,
+                explanation: "Investigation graph là advanced XDR capability cung cấp visual representation of attack progression, relationships giữa entities (files, processes, users, devices) để facilitate investigation."
+            },
+            {
+                question: "95. Log management and data lake có trong tier nào?",
+                options: ["Tất cả tiers", "XDR Optimum trở lên", "Chỉ XDR Expert", "Không có tier nào"],
+                correct: 2,
+                explanation: "Log management and data lake là advanced XDR capability chỉ có trong XDR Expert, store và manage logs từ multiple sources in a form convenient for analysis."
+            },
+
+            // CATEGORY: Migration
+            {
+                category: "🔄 Migration",
+                question: "96. Migrate từ KES Cloud Plus sang Next EDR Foundations ảnh hưởng gì?",
+                options: ["Không có thay đổi", "Security for Microsoft 365 becomes inactive", "Tất cả features giữ nguyên", "Phải reinstall tất cả"],
+                correct: 1,
+                explanation: "Khi migrate từ KES Cloud Plus sang Next EDR Foundations, Kaspersky Security for Microsoft Office 365 component sẽ become INACTIVE vì EDR Foundations không bao gồm feature này."
+            },
+            {
+                question: "97. Có thể migrate tự động từ Pro View sang Expert View không?",
+                options: ["Không", "Có, nếu activation code covers 300+ users", "Có, với bất kỳ số users nào", "Chỉ với support"],
+                correct: 1,
+                explanation: "Có thể migrate tự động từ Pro View sang Expert View, provided activation code meets requirements for Expert View cloud console (covers 300 users or more)."
+            },
+            {
+                question: "98. Migration từ Pro View sang Expert View có migrate những gì?",
+                options: ["Chỉ users", "Users, devices, profiles, settings", "Chỉ devices", "Không migrate gì"],
+                correct: 1,
+                explanation: "Migration includes: (1) Users và groups, (2) Windows/Linux/macOS devices, (3) Security profiles, (4) Malware scan/update settings, (5) Vulnerability/IoC settings. KHÔNG migrate: Android/iOS, packages, EDR alerts, event log."
+            },
+            {
+                question: "99. Migration process có thể mất bao lâu?",
+                options: ["Vài giây", "Vài phút", "Several hours", "Vài ngày"],
+                correct: 2,
+                explanation: "Migration process từ Pro View sang Expert View có thể take SEVERAL HOURS tùy thuộc vào lượng data và số devices cần migrate."
+            },
+            {
+                question: "100. Kaspersky Next XDR Optimum license activates những gì?",
+                options: ["Chỉ KSC Server", "Chỉ KES", "KSC Server, KES with EDR, Cloud Sandbox, KASAP", "Chỉ Cloud Sandbox"],
+                correct: 2,
+                explanation: "XDR Optimum license activates: (1) KSC Administration Server để enable XDR features, (2) KES with EDR Optimum component, (3) Cloud Sandbox queries (0.5x licenses/year), (4) KASAP training slots (0.2x licenses)."
             }
         ];
 
@@ -587,7 +971,18 @@
             const container = document.getElementById('questionsContainer');
             container.innerHTML = '';
 
+            let currentCategory = '';
+
             questions.forEach((q, index) => {
+                // Add category header if new category
+                if (q.category && q.category !== currentCategory) {
+                    currentCategory = q.category;
+                    const categoryDiv = document.createElement('div');
+                    categoryDiv.className = 'category-header';
+                    categoryDiv.textContent = currentCategory;
+                    container.appendChild(categoryDiv);
+                }
+
                 const questionDiv = document.createElement('div');
                 questionDiv.className = 'question-block';
                 questionDiv.id = `question-${index}`;
@@ -606,7 +1001,7 @@
                 questionDiv.innerHTML = `
                     <div class="question-text">${q.question}</div>
                     ${optionsHtml}
-                    <button class="check-btn" onclick="checkAnswer(${index})" id="checkBtn-${index}">✓ Xác Nhận</button>
+                    <button class="check-btn" onclick="checkAnswer(${index})" id="checkBtn-${index}">✓ Xác Nhận Câu Này</button>
                     <div class="explanation" id="explanation-${index}"></div>
                 `;
 
@@ -632,7 +1027,7 @@
 
             const radio = document.querySelector(`input[name="question${questionIndex}"]:checked`);
             if (!radio) {
-                alert('⚠️ Vui lòng chọn một đáp án!');
+                alert('⚠️ Vui lòng chọn một đáp án trước khi xác nhận!');
                 return;
             }
 
@@ -656,11 +1051,11 @@
             const explanation = document.getElementById(`explanation-${questionIndex}`);
             if (isCorrect) {
                 questionBlock.classList.add('correct');
-                explanation.innerHTML = `<span class="correct-answer">✓ Đúng!</span> ${questions[questionIndex].explanation}`;
+                explanation.innerHTML = `<span class="correct-answer">✓ Chính Xác!</span> ${questions[questionIndex].explanation}`;
                 stats.correct++;
             } else {
                 questionBlock.classList.add('incorrect');
-                explanation.innerHTML = `<span class="wrong-answer">✗ Sai!</span> Đáp án đúng: <strong>${questions[questionIndex].options[correctAnswer]}</strong><br>${questions[questionIndex].explanation}`;
+                explanation.innerHTML = `<span class="wrong-answer">✗ Chưa Đúng!</span> Đáp án đúng: <strong>${questions[questionIndex].options[correctAnswer]}</strong><br><br>${questions[questionIndex].explanation}`;
                 stats.wrong++;
             }
 
@@ -671,20 +1066,31 @@
 
             stats.answered++;
             updateStats();
+
+            // Scroll to next unanswered question
+            setTimeout(() => {
+                const nextUnanswered = document.querySelector('.question-block:not(.answered)');
+                if (nextUnanswered) {
+                    nextUnanswered.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 500);
         }
 
         function updateStats() {
             document.getElementById('answeredCount').textContent = stats.answered;
             document.getElementById('correctCount').textContent = stats.correct;
             document.getElementById('wrongCount').textContent = stats.wrong;
-            document.getElementById('progressText').textContent = `${stats.answered}/50`;
+            document.getElementById('progressText').textContent = `${stats.answered}/100`;
 
             const percentage = (stats.answered / questions.length) * 100;
             document.getElementById('progressFill').style.width = percentage + '%';
+
+            const scorePercentage = stats.answered > 0 ? ((stats.correct / stats.answered) * 100).toFixed(1) : 0;
+            document.getElementById('scorePercent').textContent = scorePercentage + '%';
         }
 
         function resetQuiz() {
-            if (stats.answered > 0 && !confirm('Bạn có chắc muốn làm lại từ đầu?')) {
+            if (stats.answered > 0 && !confirm('🔄 Bạn có chắc muốn làm lại từ đầu? Tất cả câu trả lời sẽ bị xóa.')) {
                 return;
             }
 
