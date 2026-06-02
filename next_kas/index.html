@@ -173,15 +173,12 @@
         }
 
         .stats {
-            position: sticky;
-            top: 20px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 20px;
             border-radius: 10px;
             margin-bottom: 30px;
             text-align: center;
-            z-index: 100;
         }
 
         .stats h3 {
@@ -1023,7 +1020,10 @@
 
         function checkAnswer(questionIndex) {
             const questionBlock = document.getElementById(`question-${questionIndex}`);
-            if (questionBlock.classList.contains('answered')) return;
+            if (questionBlock.classList.contains('answered')) {
+                alert('ℹ️ Bạn đã trả lời câu này rồi!');
+                return;
+            }
 
             const radio = document.querySelector(`input[name="question${questionIndex}"]:checked`);
             if (!radio) {
@@ -1067,13 +1067,7 @@
             stats.answered++;
             updateStats();
 
-            // Scroll to next unanswered question
-            setTimeout(() => {
-                const nextUnanswered = document.querySelector('.question-block:not(.answered)');
-                if (nextUnanswered) {
-                    nextUnanswered.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-            }, 500);
+            // No auto-scroll - user can answer any question they want
         }
 
         function updateStats() {
